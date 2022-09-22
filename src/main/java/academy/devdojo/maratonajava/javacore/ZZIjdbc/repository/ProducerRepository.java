@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Log4j2
@@ -196,6 +197,54 @@ public class ProducerRepository {
             log.error("Error while to trying to find all producers", e);
         }
         return producers;
+    }
+
+    // UPDATETOUPPERCASEALL E UPDATETOLOWERCASEALL EU Q FIZ SOZINHO PRA PRATICAR, REUTILIZANDO MATERIAL JA APRENDIDO, E TENTANDO AO MAXIMO REAPROVEITAR CODIGO E EXPLORAR AS FUNCIONALIDADES;
+    public static List<Producer> updateToUpperCaseAll() {
+        log.info("updateToUpperCaseAll");
+        String sql = "SELECT id, name FROM anime_store.producer where name like '%%%%';";
+        List<Producer> producers = new ArrayList<>();
+        try(Connection conn = ConnectionFactory.getConnection();
+            Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                rs.updateString("name", rs.getString("name").toUpperCase());
+                rs.updateRow();
+                Producer producer = Producer.builder()
+                        .name(rs.getString("name"))
+                        .build();
+                producers.add(producer);
+            }
+            log.info("Finding Producer by name updateToUpperCaseAll '{}'", producers);
+
+        } catch (SQLException e) {
+            log.error("Error while to trying to updateToUpperCaseAll producers", e);
+        }
+        return producers;
+
+    }
+
+
+    public static List<Producer> updateToLowerCaseAll() {
+        log.info("updateToUpperCaseAll");
+        String sql = "SELECT id, name FROM anime_store.producer where name like '%%%%';";
+        List<Producer> producers = new ArrayList<>();
+        try(Connection conn = ConnectionFactory.getConnection();
+            Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                rs.updateString("name", rs.getString("name").toLowerCase());
+                rs.updateRow();
+                Producer producer = Producer.builder()
+                        .name(rs.getString("name"))
+                        .build();
+                producers.add(producer);
+            }
+        } catch (SQLException e) {
+            log.error("Error while to trying to updateToUpperCaseAll producers", e);
+        }
+        return producers;
+
     }
 
     public static List<Producer> findByNameAndInsertWhenNotFound(String name) {
