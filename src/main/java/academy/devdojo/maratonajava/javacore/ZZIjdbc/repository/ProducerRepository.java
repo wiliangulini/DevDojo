@@ -249,7 +249,7 @@ public class ProducerRepository {
 
     private static PreparedStatement createdPrepareStatement(Connection conn, String sql, String name) throws SQLException{
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, name);
+        ps.setString(1, String.format("%%%s%%", name));
         return ps;
     }
 }
