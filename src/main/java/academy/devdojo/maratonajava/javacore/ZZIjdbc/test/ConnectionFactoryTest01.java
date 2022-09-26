@@ -27,7 +27,11 @@ public class ConnectionFactoryTest01 {
         //List<Producer> producers = ProducerService.findByNameAndInsertWhenNotFound("Fulano");
         //List<Producer> producers = ProducerService.findByNamePreparedStatement("de");
         //log.info("Producers found '{}'", ProducerService.updateToUpperCaseAll());
-        log.info("Producers found '{}'", ProducerService.updateToLowerCaseAll());
+        //log.info("Producers found '{}'", ProducerService.updateToLowerCaseAll());
+        //ProducerService.updatePrepareStatement(Producer.builder().id(2).name("NHK").build());
+        List<Producer> producers = ProducerService.findByNameCallableStatement("de");
+        log.info("Producers found '{}'", producers);
+
 
 //        log.info("info");
 //        log.debug("debug");

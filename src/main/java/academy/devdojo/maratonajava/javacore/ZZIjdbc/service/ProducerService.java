@@ -7,6 +7,10 @@ import java.util.List;
 
 public class ProducerService {
 
+    public static void saveTransaction(List<Producer> producers) {
+        ProducerRepository.saveTransaction(producers);
+    }
+
     public static void save(Producer producer) {
         ProducerRepository.save(producer);
     }
@@ -19,6 +23,11 @@ public class ProducerService {
     public static void update(Producer producer) {
         requireValidId(producer.getId());
         ProducerRepository.update(producer);
+    }
+
+    public static void updatePrepareStatement(Producer producer) {
+        requireValidId(producer.getId());
+        ProducerRepository.updatePrepareStatement(producer);
     }
 
     public static List<Producer> findAll() {
@@ -65,5 +74,9 @@ public class ProducerService {
 
     public static List<Producer> findByNamePreparedStatement(String name) {
         return ProducerRepository.findByNamePreparedStatement(name);
+    }
+
+    public static List<Producer> findByNameCallableStatement(String name) {
+        return ProducerRepository.findByNameCallableStatement(name);
     }
 }
